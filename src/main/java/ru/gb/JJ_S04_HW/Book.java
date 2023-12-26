@@ -3,15 +3,43 @@ package ru.gb.JJ_S04_HW;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "book")
+@Table(name = "books")
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "author")
-    private String author;
+    @Column(name = "name_book")
+    private String nameBook;
+
+    //    @Column(name = "author")
+//    private String author;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    private Author author;
+
+    public Book(String nameBook, Author author) {
+        this.nameBook = nameBook;
+        this.author = author;
+    }
+
+    public Book() {
+    }
+
+    public String getNameBook() {
+        return nameBook;
+    }
+
+    public void setNameBook(String nameBook) {
+        this.nameBook = nameBook;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
 
     public Long getId() {
         return id;
@@ -21,28 +49,12 @@ public class Book {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     @Override
     public String toString() {
         return "Book{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
+                ", nameBook='" + nameBook + '\'' +
+                ", author=" + author.getNameAuthor() +
                 '}';
     }
 }
